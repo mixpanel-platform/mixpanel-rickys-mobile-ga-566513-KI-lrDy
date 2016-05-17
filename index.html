@@ -127,20 +127,7 @@
     <input id="file-input" type="file" />
     <script type="text/javascript">
   
-  
-      var Project = function(){}
-  
-      Project.prototype.checkSpec = function(spec){
-        $.each(spec, function(index, eventInfo) {
-          currentEvent = eventInfo
-          eventName = currentEvent.event;
-          eventProps = currentEvent.$properties;
-          checker(eventName, eventProps);
-        });
-      };
-  
-      
-      Project.prototype.csvImport = function(file){
+      csvImport = function(file){
         var header,
             csvArray;
         var eventIndex = -1;
@@ -185,27 +172,40 @@
       ** Takes an event
       ** Returns promise
       */
-      Project.prototype.importSpec = function (evt) {
-        if (window.File && window.FileReader && window.FileList && window.Blob) {
-          var file = evt.target.files[0];
-          var reader = new FileReader();
-          var deferred = $.Deferred();
-          reader.readAsText(file);
-  
-          reader.onload = function(event) {
-            deferred.resolve(event.target.result);
-          };
-          reader.onerror = function() {
-            deferred.reject(this);
-          };
-        } else {
-          alert('The File APIs are not fully supported in this browser!');
+      function readSingleFile(e) {
+        var file = e.target.files[0];
+        if (!file) {
+          return;
         }
-        return deferred.promise();
-      };
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          var contents = e.target.result;
+          debugger
+          console.log(contents);
+        };
+        reader.readAsText(file);
+      }
+
+      // Project.prototype.importSpec = function (evt) {
+      //   if (window.File && window.FileReader && window.FileList && window.Blob) {
+      //     var file = evt.target.files[0];
+      //     var reader = new FileReader();
+      //     var deferred = $.Deferred();
+      //     reader.readAsText(file);
   
-      checker = function(name, properties) {
-        
+      //     reader.onload = function(event) {
+      //       deferred.resolve(event.target.result);
+      //     };
+      //     reader.onerror = function() {
+      //       deferred.reject(this);
+      //     };
+      //   } else {
+      //     alert('The File APIs are not fully supported in this browser!');
+      //   }
+      //   return deferred.promise();
+      // };
+  
+      checker = function(spec) {
         var params = {
           days: 30,
           library: 'iPhone'
@@ -252,6 +252,8 @@
         //   }
         // })
       };
+      document.getElementById('file-input')
+        .addEventListener('change', readSingleFile, false);
   
       </script>
   </body>
