@@ -126,7 +126,7 @@
     </script>
     <input id="file-input" type="file" />
     <script type="text/javascript">
-  
+      debugger
       csvImport = function(file){
         var header,
             csvArray;
@@ -163,7 +163,7 @@
             event.$properties = new Set(event.$properties.concat(superProps));
             event.$properties = Array.from(event['$properties']);
           });
-          return {spec: events}};
+          return {spec: events};
         } else {
           /* alert('No data to import!'); */
         }
@@ -185,25 +185,6 @@
         };
         reader.readAsText(file);
       }
-
-      // Project.prototype.importSpec = function (evt) {
-      //   if (window.File && window.FileReader && window.FileList && window.Blob) {
-      //     var file = evt.target.files[0];
-      //     var reader = new FileReader();
-      //     var deferred = $.Deferred();
-      //     reader.readAsText(file);
-  
-      //     reader.onload = function(event) {
-      //       deferred.resolve(event.target.result);
-      //     };
-      //     reader.onerror = function() {
-      //       deferred.reject(this);
-      //     };
-      //   } else {
-      //     alert('The File APIs are not fully supported in this browser!');
-      //   }
-      //   return deferred.promise();
-      // };
   
       checker = function(spec) {
         var params = {
@@ -211,46 +192,6 @@
           library: 'iPhone'
         }
         debugger; 
-        // var endpoint = 'api/2.0/events/properties/toptypes'
-        // MP.api.query(endpoint, {event:name, limit: 255} ).done(function(results){
-        //   var cssSafe = name.replace('$','').replace(' ','_')
-        //   var eventState = true;
-        //   var propertiesState = true;
-        //   if ($.isEmptyObject(results)) {
-        //     eventState = false
-        //   }
-        //   propNamesExist = results;
-        //   // yellow prop but no type
-        //   // red no prop
-        //   // green both prop and type
-        //   $.each(properties, function(index, Prop) {
-        //     var cssSafeProp = Prop.name.replace('$','').replace(' ','_')
-        //     var id = cssSafe + "-" + cssSafeProp
-  
-        //     console.log(id);
-        //     var $prop = $(document.getElementById(id))
-        //     if (propNamesExist[Prop.name]) {
-        //       var propType = propNamesExist[Prop.name].type
-        //       if ($prop.next().hasClass(propType)) {
-        //         $prop.prepend("<i class='fa fa-check' style='color: green;'></i>");
-        //       } else {
-        //         $prop.prepend("<i class='fa fa-warning' style='color: orange;'></i>");
-        //         propertiesState = false;
-        //       }
-        //     } else {
-        //       $prop.prepend("<i class='fa fa-ban' style='color: red;'></i>");
-        //       propertiesState = false;
-        //     }
-        //   })
-  
-        //   if (eventState && propertiesState) {
-        //     $(document.getElementById(cssSafe)).prepend("<i class='fa fa-check' style='color: green;'></i>");
-        //   } else if (eventState && !propertiesState) {
-        //     $(document.getElementById(cssSafe)).prepend("<i class='fa fa-warning' style='color: orange;'></i>");
-        //   } else {
-        //     $(document.getElementById(cssSafe)).prepend("<i class='fa fa-ban' style='color: red;'></i>");
-        //   }
-        // })
       };
       document.getElementById('file-input')
         .addEventListener('change', readSingleFile, false);
