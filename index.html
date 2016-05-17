@@ -2,14 +2,257 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <!-- Mixpanel Platform -->
+    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/css/reset.css">
     <link rel="stylesheet" type="text/css" href="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.css">
-    <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
+    <!-- Font Awesome  -->
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    <!-- Utilities Platform -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/0.71/jquery.csv-0.71.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+  <!-- Latest compiled and minified CSS -->
+   
+
   </head>
-  <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
-    <script>
-      // Run queries and display results here
+
+  <body class="mixpanel-platform-body spec">
+    <script id="jql" type="text/javscript">
+      var default_props = {
+        "$city":1,
+        "$region":1,
+        "mp_country_code":1,
+        "$brand":1,
+        "$bluetooth_version":1,
+        "$device":1,
+        "$os":1,
+        "$app_release":1,
+        "$app_version":1,
+        "$carrier":1,
+        "$lib_version":1,
+        "$wifi":1,
+        "$screen_width":1,
+        "$screen_height":1,
+        "$model":1,
+        "$os_version":1,
+        "$manufacturer":1,
+        "$screen_dpi":1,
+        "$has_telephone":1,
+        "has_nfc":1,
+        "$bluetooth_enabled":1,
+        "$browser":1,
+        "$initial_referrer":1,
+        "$initial_referring_domain":1,
+        "$referrer":1,
+        "$referring_domain":1,
+        "$browser_version":1,
+        "mp_keyword":1,
+        "$search_engine":1,
+        "utm_source":1,
+        "utm_medium":1,
+        "utm_campaign":1,
+        "utm_content":1,
+        "utm_term":1,
+        "$radio":1,
+        "mp_device_model":1,
+        "$google_play_services":1,
+        "mp_lib":1,
+        "campaign_id":1,
+        "message_id":1,
+        "message_subtype":1,
+        "message_type":1,
+        "$answer_count":1,
+        "survey_id":1,
+        "collection_id":1,
+        "$survey_shown":1,
+        "$watch_model":1,
+        "$ios_ifa":1,
+        "$current_url":1,
+        "$duration":1,
+        "$from_binding":1,
+        "$experiments":1,
+        "$import":1,
+        "distinct_id":1,
+        "time":1,
+        "$has_nfc":1
+      };
+
+
+      var default_events = {
+        "$campaign_delivery":1,
+        "$campaign_marked_spam":1,
+        "$campaign_bounced":1,
+        "$campaign_open":1,
+        "$experiment_started":1,
+        "$show_survey":1
+      };
+      
+      var from_date = new Date(_.now() - (params.days * 24 * 60 * 60 * 1000)).toISOString().slice(0, -14);
+      function main() {
+        return Events({
+          from_date: from_date,
+          to_date: new Date().toISOString().slice(0, -14)  
+        })
+        .filter(event => event.properties.mp_lib == params.library)
+        .filter(event => !default_events[event.name])
+        .groupBy(['name'], function(accums, events){
+          var res = {};
+          _.each(events, function(event) {
+            res[event.name] = res[event.name] || {};
+            _.each(event.properties, function(propVal, propName) {
+              if (!default_props[propName]) {
+                res[event.name][propName] = res[event.name][propName] || [];
+                res[event.name][propName] = _.union(res[event.name][propName], [typeof(propVal)]);
+              }
+            });
+          });
+          _.each(accums, function(accum) {
+            _.each(accum, function(propList, eventName) {
+              res[eventName] = res[eventName] || {};
+              _.each(propList, function(propTypes, propName) {
+                res[eventName][propName] = res[eventName][propName] || {};
+                res[eventName][propName] = _.union(res[eventName][propName], propTypes);
+              });
+            });
+          });
+          return res;
+        })
+        .map(item => item.value);
+      }
     </script>
+    <input id="file-input" type="file" />
+    <script type="text/javascript">
+  
+  
+      var Project = function(){}
+  
+      Project.prototype.checkSpec = function(spec){
+        $.each(spec, function(index, eventInfo) {
+          currentEvent = eventInfo
+          eventName = currentEvent.event;
+          eventProps = currentEvent.$properties;
+          checker(eventName, eventProps);
+        });
+      };
+  
+      
+      Project.prototype.csvImport = function(file){
+        var header,
+            csvArray;
+        var eventIndex = -1;
+        var events = [];
+        var superProps = [];
+        var data = $.csv.toArrays(file);
+        header = data[0];
+        if (data && data.length > 0) {
+          csvArray = data.slice(1, data.length);
+          _.each(csvArray, function(arr){
+            var property = arr[header.indexOf('Property')];
+            var eventName = arr[header.indexOf('Event')];
+            var superProperty = arr[header.indexOf('Super Property')];
+            var propertyType = arr[header.indexOf('Property Type')];
+            var superPropType = arr[header.indexOf('Super Property Type')];
+            if (eventName){
+              eventIndex++;
+              events.push({ event: eventName, $properties: [] });
+            }
+  
+            if (property) {
+              propObj = {name: property, type: propertyType};
+              events[eventIndex]['$properties'].push(propObj);
+            }
+  
+            if (superProperty) {
+              superPropObj = {name: superProperty, type: superPropType};
+              superProps.push(superPropObj);
+            }
+            // console.log(arr)
+          });
+          _.each(events, function(event){
+            event.$properties = new Set(event.$properties.concat(superProps));
+            event.$properties = Array.from(event['$properties']);
+          });
+          return {spec: events}};
+        } else {
+          /* alert('No data to import!'); */
+        }
+      }
+      /* Import File
+      ** Takes an event
+      ** Returns promise
+      */
+      Project.prototype.importSpec = function (evt) {
+        if (window.File && window.FileReader && window.FileList && window.Blob) {
+          var file = evt.target.files[0];
+          var reader = new FileReader();
+          var deferred = $.Deferred();
+          reader.readAsText(file);
+  
+          reader.onload = function(event) {
+            deferred.resolve(event.target.result);
+          };
+          reader.onerror = function() {
+            deferred.reject(this);
+          };
+        } else {
+          alert('The File APIs are not fully supported in this browser!');
+        }
+        return deferred.promise();
+      };
+  
+      checker = function(name, properties) {
+        
+        var params = {
+          days: 30,
+          library: 'iPhone'
+        }
+        debugger; 
+        // var endpoint = 'api/2.0/events/properties/toptypes'
+        // MP.api.query(endpoint, {event:name, limit: 255} ).done(function(results){
+        //   var cssSafe = name.replace('$','').replace(' ','_')
+        //   var eventState = true;
+        //   var propertiesState = true;
+        //   if ($.isEmptyObject(results)) {
+        //     eventState = false
+        //   }
+        //   propNamesExist = results;
+        //   // yellow prop but no type
+        //   // red no prop
+        //   // green both prop and type
+        //   $.each(properties, function(index, Prop) {
+        //     var cssSafeProp = Prop.name.replace('$','').replace(' ','_')
+        //     var id = cssSafe + "-" + cssSafeProp
+  
+        //     console.log(id);
+        //     var $prop = $(document.getElementById(id))
+        //     if (propNamesExist[Prop.name]) {
+        //       var propType = propNamesExist[Prop.name].type
+        //       if ($prop.next().hasClass(propType)) {
+        //         $prop.prepend("<i class='fa fa-check' style='color: green;'></i>");
+        //       } else {
+        //         $prop.prepend("<i class='fa fa-warning' style='color: orange;'></i>");
+        //         propertiesState = false;
+        //       }
+        //     } else {
+        //       $prop.prepend("<i class='fa fa-ban' style='color: red;'></i>");
+        //       propertiesState = false;
+        //     }
+        //   })
+  
+        //   if (eventState && propertiesState) {
+        //     $(document.getElementById(cssSafe)).prepend("<i class='fa fa-check' style='color: green;'></i>");
+        //   } else if (eventState && !propertiesState) {
+        //     $(document.getElementById(cssSafe)).prepend("<i class='fa fa-warning' style='color: orange;'></i>");
+        //   } else {
+        //     $(document.getElementById(cssSafe)).prepend("<i class='fa fa-ban' style='color: red;'></i>");
+        //   }
+        // })
+      };
+  
+      </script>
   </body>
 </html>
