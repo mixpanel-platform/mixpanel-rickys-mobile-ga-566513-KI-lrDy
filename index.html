@@ -208,9 +208,11 @@
         // check for state, 
         // how to do Super Properties?
        $.when(iOS, web, android).done(function(iOSAudit, webAudit, androidAudit){
+          debugger
           var ios = auditLib(iOSAudit, 'ios', spec)
           var web = auditLib(webAudit, 'web', spec)
           var android = auditLib(androidAudit, 'android', spec)
+          debugger
         })
         
       };
