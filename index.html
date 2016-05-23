@@ -173,6 +173,7 @@
       ** Returns promise
       */
       function readSingleFile(e) {
+        debugger
         var file = e.target.files[0];
         if (!file) {
           return;
@@ -180,8 +181,8 @@
         var reader = new FileReader();
         reader.onload = function(e) {
           var contents = e.target.result;
-          debugger
-          console.log(contents);
+          var spec = csvImport(contents)
+          checker(spec)
         };
         reader.readAsText(file);
       }
