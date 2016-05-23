@@ -144,21 +144,34 @@
             var superProperty = arr[header.indexOf('Super Property')];
             var propertyType = arr[header.indexOf('Property Type')];
             var superPropType = arr[header.indexOf('Super Property Type')];
+            var ios = arr[header.indexOf('iOS')];
+            var android = arr[header.indexOf('Android')];
+            var web = arr[header.indexOf('Web')];
+            
             if (eventName){
               lastEvent = eventName
-              events[lastEvent] = {}
+              events[lastEvent] = {
+                state: { ios: false, android: false, web: false},
+                properties: {},
+                libraries: { ios: ios, web: web, android: android },
+              }
             }
-  
             if (property) {
-              events[lastEvent][property] = propertyType;
+              events[lastEvent]['properties'][property] = {
+                type: propertyType,
+                libraries: { ios: ios, web: web, android: android },
+                state: { ios: false, android: false, web: false},
+              }
             }
-  
             if (superProperty) {
-              superProps[superProperty] = superPropType;
+              superProps[superProperty] = {
+                type: superPropType,
+                libraries: { ios: ios, web: web, android: android },
+                state: { ios: false, android: false, web: false},
+              }
             }
-            // console.log(arr)
           });
-          return {spec: events};
+          return {events: events, superProps: superProps};
         } else {
           /* alert('No data to import!'); */
         }
@@ -190,21 +203,36 @@
         // make jql query
         // check for state, 
         // how to do Super Properties?
-        MP.api.jql($('#jql-spec').html(), params).done(function(audit){
-          _.each(audit, function(eventobj, idx) { 
-             _.each(eventobj, function(properties, eventName) {
-                console.log(eventName)
-                _.each(properties, function(types, prop){
-                  console.log(spec[eventName])
-                  
-                  debugger
-                })
-                console.log(properties)
-             })
-          })
-          
+        MP.api.jql($('#jql-spec').html(), params).done(function(implementation){
+          debugger
+          var ios = function(implementation, 'ios', spec)
         })
+        
       };
+      
+      var auditLib = function(implementation, libstring, spec) {
+        audit = {}
+        
+        _.each(implementation, function(eventobj, idx) {
+          _.each(eventObj, function(properties, eventName){
+            audit[eventName] = properties
+          })
+        })
+        _.each(spec, function(properties, eventName) {
+          console.log(eventName)
+          if (spec[eventName]) {
+            audit[eventName]['state'][libstring] = true
+            _.each(properties, function(types, prop){
+              if (audit[eventName][prop]){
+                spec[event]['properties'][prop]['state'][libstring] = true
+                // del audit[event][prop]
+              }
+              // super props?
+            })
+          }
+        })
+        return audit
+      }
       document.getElementById('file-input')
         .addEventListener('change', readSingleFile, false);
   
