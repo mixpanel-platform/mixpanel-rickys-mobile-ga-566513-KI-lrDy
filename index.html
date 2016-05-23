@@ -222,7 +222,7 @@
           console.log(eventName)
           debugger
           if (events[eventName]) {
-            audit[eventName]['state'][libstring] = true
+            events[eventName]['state'][libstring] = true
             _.each(properties, function(types, prop){
               if (audit[eventName][prop]){
                 
