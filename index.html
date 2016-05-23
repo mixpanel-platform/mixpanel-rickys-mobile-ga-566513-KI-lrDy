@@ -124,6 +124,7 @@
         .map(item => item.value);
       }
     </script>
+    
     <input id="file-input" type="file" />
     <script type="text/javascript">
       debugger
@@ -131,8 +132,8 @@
         var header,
             csvArray;
         var eventIndex = -1;
-        var events = [];
-        var superProps = [];
+        var events = {};
+        var superProps = {};
         var data = $.csv.toArrays(file);
         header = data[0];
         if (data && data.length > 0) {
@@ -144,24 +145,19 @@
             var propertyType = arr[header.indexOf('Property Type')];
             var superPropType = arr[header.indexOf('Super Property Type')];
             if (eventName){
-              eventIndex++;
-              events.push({ event: eventName, $properties: [] });
+              var lastEvent = eventName
+              events[eventName] = {}
             }
   
             if (property) {
-              propObj = {name: property, type: propertyType};
-              events[eventIndex]['$properties'].push(propObj);
+              events[lastEvent][property] = [propertyType]);
             }
   
             if (superProperty) {
               superPropObj = {name: superProperty, type: superPropType};
-              superProps.push(superPropObj);
+              superProps[superProperty] = superPropType;
             }
             // console.log(arr)
-          });
-          _.each(events, function(event){
-            event.$properties = new Set(event.$properties.concat(superProps));
-            event.$properties = Array.from(event['$properties']);
           });
           return {spec: events};
         } else {
