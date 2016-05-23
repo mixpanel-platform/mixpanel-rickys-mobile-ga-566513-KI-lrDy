@@ -224,6 +224,7 @@
             audit[eventName]['state'][libstring] = true
             _.each(properties, function(types, prop){
               if (audit[eventName][prop]){
+                debugger
                 spec[event]['properties'][prop]['state'][libstring] = true
                 // del audit[event][prop]
               }
