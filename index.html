@@ -200,11 +200,17 @@
           library: 'iPhone'
         }
         
+        var iOS = MP.api.jql($('#jql-spec').html(), {days: 30, library: 'iPhone'})
+        var web = MP.api.jql($('#jql-spec').html(), {days: 30, library: 'web'})
+        var android = MP.api.jql($('#jql-spec').html(), {days: 30, library: 'android'})
+        
         // make jql query
         // check for state, 
         // how to do Super Properties?
-        MP.api.jql($('#jql-spec').html(), params).done(function(implementation){
-          var ios = auditLib(implementation, 'ios', spec)
+       $.when(iOS, web, android).done(function(iOSAudit, webAudit, androidAudit){
+          var ios = auditLib(iOSAudit, 'ios', spec)
+          var web = auditLib(webAudit, 'web', spec)
+          var android = auditLib(androidAudit, 'android', spec)
         })
         
       };
