@@ -211,6 +211,7 @@
       
       var auditLib = function(implementation, libstring, spec) {
         audit = {}
+        debugger
         var events = spec.events
         _.each(implementation, function(eventObj, idx) {
           _.each(eventObj, function(properties, eventName){
