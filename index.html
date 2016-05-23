@@ -217,7 +217,6 @@
       
       var auditLib = function(implementation, libstring, spec) {
         audit = {}
-        debugger
         var events = spec.events
         _.each(implementation, function(eventObj, idx) {
           _.each(eventObj, function(properties, eventName){
@@ -227,7 +226,6 @@
         _.each(events, function(properties, eventName) {
           console.log(eventName)
           if (audit[eventName] != undefined) {
-            debugger
             events[eventName]['state'][libstring] = true
             _.each(properties, function(types, prop){
               if (audit[eventName][prop] != undefined){
