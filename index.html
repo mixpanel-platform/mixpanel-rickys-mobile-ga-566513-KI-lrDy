@@ -97,7 +97,7 @@
           from_date: from_date,
           to_date: new Date().toISOString().slice(0, -14)  
         })
-        .filter(event => event.properties.mp_lib == params.library)
+        //.filter(event => event.properties.mp_lib == params.library)
         .filter(event => !default_events[event.name])
         .groupBy(['name'], function(accums, events){
           var res = {};
