@@ -21,7 +21,7 @@
   </head>
 
   <body class="mixpanel-platform-body spec">
-    <script id="jql" type="text/javscript">
+    <script id="jql-spec" type="text/javscript">
       var default_props = {
         "$city":1,
         "$region":1,
@@ -150,7 +150,7 @@
             }
   
             if (property) {
-              events[lastEvent][property] = [propertyType];
+              events[lastEvent][property] = propertyType;
             }
   
             if (superProperty) {
@@ -186,7 +186,13 @@
           days: 30,
           library: 'iPhone'
         }
-        debugger; 
+        
+        // make jql query
+        // check for state, 
+        // how to do Super Properties?
+        MP.api.jql($('#jql-spec').html()).done(function(audit){
+          debugger
+        })
       };
       document.getElementById('file-input')
         .addEventListener('change', readSingleFile, false);
