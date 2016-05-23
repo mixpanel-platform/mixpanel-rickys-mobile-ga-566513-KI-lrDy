@@ -219,10 +219,10 @@
         })
         _.each(events, function(properties, eventName) {
           console.log(eventName)
-          if (events[eventName]) {
+          if (audit[eventName] != undefined) {
             events[eventName]['state'][libstring] = true
             _.each(properties, function(types, prop){
-              if (audit[eventName][prop]){
+              if (audit[eventName][prop] != undefined){
                 
                 events[event]['properties'][prop]['state'][libstring] = true
                 // del audit[event][prop]
