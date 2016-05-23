@@ -204,7 +204,6 @@
         // check for state, 
         // how to do Super Properties?
         MP.api.jql($('#jql-spec').html(), params).done(function(implementation){
-          debugger
           var ios = auditLib(implementation, 'ios', spec)
         })
         
@@ -220,7 +219,6 @@
         })
         _.each(events, function(properties, eventName) {
           console.log(eventName)
-          debugger
           if (events[eventName]) {
             events[eventName]['state'][libstring] = true
             _.each(properties, function(types, prop){
