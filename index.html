@@ -176,6 +176,26 @@
           /* alert('No data to import!'); */
         }
       }
+      
+      /* Csv Export
+      ** Write the values out
+      **
+      */
+      function csvExport(spec){
+        csvArray = ["Event, Properties, Super Properties, Android, iOS, Web, State - Android, State - iOS, State - Web"]
+        _.each(spec.events, function(val, event){
+          var lib = val.libraries
+          var state = val.state
+          csvArray.push(event + ',,' + lib.android + ', ' + lib.ios + ',' + lib.web + ', ' + String(state.android) + ',' + String(state.ios) + ',' + String(state.web))
+          _.each(val.properties, function(pV, prop){
+            var pLib = pV.lib
+            var pState = pV.state
+            csvArray.push(',' + prop + ',,' + pLib.android  + ',' + pLib.ios + ',' + pLib.web + ',' + String(pState.android) + ',' + String(pState.ios) + ',' + String(pState.web))
+          })
+        })
+        console.log(csvArray.join('\n'))
+      }
+      
       /* Import File
       ** Takes an event
       ** Returns promise
@@ -213,6 +233,7 @@
           var web = auditLib(webAudit, 'web', spec)
           var android = auditLib(androidAudit, 'android', spec)
           debugger
+          csvExport(spec)
         })
         
       };
