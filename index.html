@@ -186,7 +186,7 @@
         _.each(spec.events, function(val, event){
           var lib = val.libraries
           var state = val.state
-          csvArray.push(event + ',,' + lib.android + ', ' + lib.ios + ',' + lib.web + ', ' + String(state.android) + ',' + String(state.ios) + ',' + String(state.web))
+          csvArray.push(event + ',,,' + lib.android + ', ' + lib.ios + ',' + lib.web + ', ' + String(state.android) + ',' + String(state.ios) + ',' + String(state.web))
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
             var pState = pV.state
