@@ -188,7 +188,7 @@
           var state = val.state
           csvArray.push(event + ',,' + lib.android + ', ' + lib.ios + ',' + lib.web + ', ' + String(state.android) + ',' + String(state.ios) + ',' + String(state.web))
           _.each(val.properties, function(pV, prop){
-            var pLib = pV.lib
+            var pLib = pV.libraries
             var pState = pV.state
             csvArray.push(',' + prop + ',,' + pLib.android  + ',' + pLib.ios + ',' + pLib.web + ',' + String(pState.android) + ',' + String(pState.ios) + ',' + String(pState.web))
           })
