@@ -186,12 +186,13 @@
       **
       */
       function csvExport(spec){
-        csvArray = ["Product, Feature, Event, Properties, Super Properties, Android, iOS, Web"]
+        csvArray = ["Product,Feature,Event,Properties,Super Properties,Android,iOS,Web"]
         _.each(spec.events, function(val, event){
           var prod = val.product
           var feat = val.feature
           var lib = val.libraries
           var state = val.state
+          debugger
           csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ', ' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web)))
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
