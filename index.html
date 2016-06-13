@@ -186,7 +186,7 @@
       **
       */
       function csvExport(spec){
-        csvArray = ["Product, Feature, Event, Properties, Super Properties, Android, iOS, Web, State - Android, State - iOS, State - Web"]
+        csvArray = ["Product, Feature, Event, Properties, Super Properties, Android, iOS, Web"]
         _.each(spec.events, function(val, event){
           var prod = val.product
           var feat = val.feature
