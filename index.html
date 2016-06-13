@@ -192,11 +192,11 @@
           var feat = val.feature
           var lib = val.libraries
           var state = val.state
-          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ', ' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web))
+          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ', ' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web)))
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
             var pState = pV.state
-            csvArray.push(',,,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web))
+            csvArray.push(',,,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)))
           })
         })
       var CSV = csvArray.join('\n')
