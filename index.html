@@ -197,7 +197,7 @@
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
             var pState = pV.state
-            csvArray.push(',,,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)))
+            csvArray.push((prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)))
           })
         })
       var CSV = csvArray.join('\n')
