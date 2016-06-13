@@ -206,7 +206,7 @@
             var pState = pV.state
             var pComments = pV.comments
             var pChanges = pV.changes
-            csvArray.push(prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)) + ',' + pComments + ',' + pChanges))
+            csvArray.push(prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)) + ',' + pComments + ',' + pChanges)
           })
         })
       var CSV = csvArray.join('\n')
