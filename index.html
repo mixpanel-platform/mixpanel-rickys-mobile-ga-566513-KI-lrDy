@@ -139,8 +139,10 @@
         if (data && data.length > 0) {
           csvArray = data.slice(1, data.length);
           _.each(csvArray, function(arr){
+            var feature = arr[header.indexOf('Feature')];
+            var product = arr[header.indexOf('Product')]
             var property = arr[header.indexOf('Property')];
-            var eventName = arr[header.indexOf('Event')];
+            var eventName = arr[header.indexOf('New Event Name')];
             var superProperty = arr[header.indexOf('Super Property')];
             var propertyType = arr[header.indexOf('Property Type')];
             var superPropType = arr[header.indexOf('Super Property Type')];
@@ -151,6 +153,8 @@
             if (eventName){
               lastEvent = eventName
               events[lastEvent] = {
+                feature: feature,
+                product: product,
                 state: { ios: false, android: false, web: false},
                 properties: {},
                 libraries: { ios: ios, web: web, android: android },
@@ -182,15 +186,17 @@
       **
       */
       function csvExport(spec){
-        csvArray = ["Event, Properties, Super Properties, Android, iOS, Web, State - Android, State - iOS, State - Web"]
+        csvArray = ["Product, Feature, Event, Properties, Super Properties, Android, iOS, Web, State - Android, State - iOS, State - Web"]
         _.each(spec.events, function(val, event){
+          var prod = val.product
+          var feat = val.feature
           var lib = val.libraries
           var state = val.state
-          csvArray.push(event + ',,,' + lib.android + ', ' + lib.ios + ',' + lib.web + ', ' + String(state.android) + ',' + String(state.ios) + ',' + String(state.web))
+          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ', ' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web))
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
             var pState = pV.state
-            csvArray.push(',' + prop + ',,' + pLib.android  + ',' + pLib.ios + ',' + pLib.web + ',' + String(pState.android) + ',' + String(pState.ios) + ',' + String(pState.web))
+            csvArray.push(',,,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web))
           })
         })
       var CSV = csvArray.join('\n')
