@@ -146,6 +146,8 @@
             var superProperty = arr[header.indexOf('Super Property')];
             var propertyType = arr[header.indexOf('Property Type')];
             var superPropType = arr[header.indexOf('Super Property Type')];
+            var comments = arr[header.indexOf('Comments')];
+            var changes = arr[header.indexOf('Changes?')]
             var ios = arr[header.indexOf('iOS')];
             var android = arr[header.indexOf('Android')];
             var web = arr[header.indexOf('Web')];
@@ -158,6 +160,8 @@
                 state: { ios: false, android: false, web: false},
                 properties: {},
                 libraries: { ios: ios, web: web, android: android },
+                comments: comments,
+                changes: changes
               }
             }
             if (property) {
@@ -165,6 +169,8 @@
                 type: propertyType,
                 libraries: { ios: ios, web: web, android: android },
                 state: { ios: false, android: false, web: false},
+                comments: comments,
+                changes: changes
               }
             }
             if (superProperty) {
@@ -186,17 +192,21 @@
       **
       */
       function csvExport(spec){
-        csvArray = ["Product,Feature,Event,Properties,Super Properties,Android,iOS,Web"]
+        csvArray = ["Product,Feature,Event,Properties,Super Properties,Android,iOS,Web,Comments,Changes"]
         _.each(spec.events, function(val, event){
           var prod = val.product
           var feat = val.feature
           var lib = val.libraries
           var state = val.state
-          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ',' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web)))
+          var comments = val.comments
+          var changes = val.changes
+          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ',' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web)) + ',' + comments + ',' + changes)
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
             var pState = pV.state
-            csvArray.push(prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)))
+            var pComments = pV.comments
+            var pChanges = pV.changes
+            csvArray.push(prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)) + ',' + pComments + ',' + pChanges))
           })
         })
       var CSV = csvArray.join('\n')
