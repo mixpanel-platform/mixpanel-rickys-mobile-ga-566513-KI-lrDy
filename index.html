@@ -201,14 +201,14 @@
           var state = val.state
           var comments = val.comments
           var changes = val.changes
-          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android)) + ',' + String(lib.ios == String(state.ios)) + ',' + String(lib.web == String(state.web)) + ',' + comments + ',' + changes)
+          csvArray.push(prod + ',' + feat + ',' + event + ',,,' + String(lib.android == String(state.android).toUpperCase()) + ',' + String(lib.ios == String(state.ios).toUpperCase()) + ',' + String(lib.web == String(state.web).toUpperCase()) + ',' + comments + ',' + changes)
           _.each(val.properties, function(pV, prop){
             var pLib = pV.libraries
             var pState = pV.state
             var pComments = pV.comments
             var pChanges = pV.changes
             debugger
-            csvArray.push(prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android))  + ',' + String(pLib.ios == String(pState.ios)) + ',' + String(pLib.web == String(pState.web)) + ',' + pComments + ',' + pChanges)
+            csvArray.push(prod + ',' + feat + ',,' + prop + ',,' + String(pLib.android == String(pState.android).toUpperCase())  + ',' + String(pLib.ios == String(pState.ios).toUpperCase()) + ',' + String(pLib.web == String(pState.web).toUpperCase()) + ',' + pComments + ',' + pChanges)
           })
         })
       var CSV = csvArray.join('\n')
