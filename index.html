@@ -140,18 +140,18 @@
         if (data && data.length > 0) {
           csvArray = data.slice(1, data.length);
           _.each(csvArray, function(arr){
-            var feature = arr[header.indexOf('Feature')];
-            var product = arr[header.indexOf('Product')]
-            var property = arr[header.indexOf('Property')];
-            var eventName = arr[header.indexOf('Event Name')];
-            var superProperty = arr[header.indexOf('Super Property')];
-            var propertyType = arr[header.indexOf('Property Type')];
-            var superPropType = arr[header.indexOf('Super Property Type')];
-            var comments = arr[header.indexOf('Comments')];
-            var changes = arr[header.indexOf('Changes?')]
-            var ios = arr[header.indexOf('iOS')];
-            var android = arr[header.indexOf('Android')];
-            var web = arr[header.indexOf('Web')];
+            var feature = arr[header.indexOf('Feature')].trim();
+            var product = arr[header.indexOf('Product')].trim()
+            var property = arr[header.indexOf('Property')].trim();
+            var eventName = arr[header.indexOf('Event Name')].trim();
+            var superProperty = arr[header.indexOf('Super Property')].trim();
+            var propertyType = arr[header.indexOf('Property Type')].trim();
+            var superPropType = arr[header.indexOf('Super Property Type')].trim();
+            var comments = arr[header.indexOf('Comments')].trim();
+            var changes = arr[header.indexOf('Changes?')].trim()
+            var ios = arr[header.indexOf('iOS')].trim()
+            var android = arr[header.indexOf('Android')].trim();
+            var web = arr[header.indexOf('Web')].trim();
             
             if (eventName){
               lastEvent = eventName
