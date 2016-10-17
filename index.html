@@ -128,6 +128,9 @@
     
     <input id="file-input" type="file" />
     <script type="text/javascript">
+      var trim = function(s){
+        return (s) ? s.trim() : 'undefined
+      }
       csvImport = function(file){
         var header,
             csvArray;
@@ -138,20 +141,21 @@
         header = data[0];
         var lastEvent = ''
         if (data && data.length > 0) {
+          // rewrite this gross CSV >> JSON Transformation
           csvArray = data.slice(1, data.length);
           _.each(csvArray, function(arr){
-            var feature = arr[header.indexOf('Feature')].trim();
-            var product = arr[header.indexOf('Product')].trim()
-            var property = arr[header.indexOf('Property')].trim();
-            var eventName = arr[header.indexOf('Event Name')].trim();
-            var superProperty = arr[header.indexOf('Super Property')].trim();
-            var propertyType = arr[header.indexOf('Property Type')].trim();
-            var superPropType = arr[header.indexOf('Super Property Type')].trim();
-            var comments = arr[header.indexOf('Comments')].trim();
-            var changes = arr[header.indexOf('Changes?')].trim()
-            var ios = arr[header.indexOf('iOS')].trim()
-            var android = arr[header.indexOf('Android')].trim();
-            var web = arr[header.indexOf('Web')].trim();
+            var feature = trim(arr[header.indexOf('Feature')]);
+            var product = trim(arr[header.indexOf('Product')]);
+            var property = trim(arr[header.indexOf('Property')]);
+            var eventName = trim(arr[header.indexOf('Event Name')]);
+            var superProperty = trim(arr[header.indexOf('Super Property')]);
+            var propertyType = trim(arr[header.indexOf('Property Type')]);
+            var superPropType = trim(arr[header.indexOf('Super Property Type')]);
+            var comments = trim(arr[header.indexOf('Comments')]);
+            var changes = trim(arr[header.indexOf('Changes?')]);
+            var ios = trim(arr[header.indexOf('iOS')]);
+            var android = trim(arr[header.indexOf('Android')]);
+            var web = trim(arr[header.indexOf('Web')]);
             
             if (eventName){
               lastEvent = eventName
