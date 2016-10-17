@@ -142,6 +142,8 @@
         var lastEvent = ''
         if (data && data.length > 0) {
           // rewrite this gross CSV >> JSON Transformation
+          // make it for each column for each header mapping
+          // this shit is bad
           csvArray = data.slice(1, data.length);
           _.each(csvArray, function(arr){
             var feature = trim(arr[header.indexOf('Feature')]);
